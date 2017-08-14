@@ -1,0 +1,38 @@
+syntax = "proto3";
+package helloworld;
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.helloworld";
+option java_outer_classname = "SampleProject";
+
+
+import "google/api/annotations.proto";
+// import "appscode/api/dtypes/types.proto";
+
+service SampleProject {
+    rpc SayHello (HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            get : "/hello/{name}"
+        };
+    }
+
+    rpc SayHelloEmpty (VoidRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            get : "/*"
+        };
+    }
+}
+
+// The request message containing the user's name.
+message VoidRequest{
+
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+    string message = 1;
+}
