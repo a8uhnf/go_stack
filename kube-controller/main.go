@@ -63,6 +63,7 @@ func (c *Controller) syncToStdout(key string) error {
 	if !exists {
 		// Below we will warm up our cache with a Pod, so that we will see a delete for one pod
 		fmt.Printf("Pod %s does not exist anymore\n", key)
+		fmt.Println(cache.SplitMetaNamespaceKey(key))
 	} else {
 		// Note that you also have to check the uid if you have a local controlled resource, which
 		// is dependent on the actual instance, to detect that a Pod was recreated with the same name
@@ -129,7 +130,7 @@ func main() {
 	fmt.Println("Hello Hanifa")
 
 	// creates the connection
-	config, err := clientcmd.BuildConfigFromFlags("", "/home/hanifa/.kube/config")
+	config, err := clientcmd.BuildConfigFromFlags("", "/home/tigerworks/.kube/config")
 	if err != nil {
 		glog.Fatal(err)
 	}
@@ -176,13 +177,11 @@ func main() {
 	fmt.Println("Before")
 	controller := NewController(queue, indexer, informer)
 	fmt.Println("After")
-	// We can now warm up the cache for initial synchronization.
-	// Let's suppose that we knew about a pod "mypod" on our last run, therefore add it to the cache.
-	// If this pod is not there anymore, the controller will be notified about the removal after the
-	// cache has synchronized.
+
+
 	indexer.Add(&v1.Pod{
 		ObjectMeta: meta_v1.ObjectMeta{
-			Name:      "kube-dns-910330662-19rd8",
+			Name:      "kube-dns-1301475494-jrwc1",
 			Namespace: "kube-system",
 		},
 	})
